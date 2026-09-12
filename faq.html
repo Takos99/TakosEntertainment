@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ — Takos Entertainment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100%;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  /* -----------------------------------------------------------
+     Header: "Takos Entertainment" top-left, logo top-right
+     ----------------------------------------------------------- */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+  }
+
+  .brand {
+    font-weight: 900;
+    font-size: 28px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .logo img {
+    display: block;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+  }
+
+  /* -----------------------------------------------------------
+     Page content
+     ----------------------------------------------------------- */
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+
+  h1 {
+    font-weight: 900;
+    font-size: 44px;
+    text-align: center;
+    margin: 0 0 48px;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .faq-item {
+    border: 2px solid #ffffff;
+    border-radius: 12px;
+    padding: 0 24px;
+  }
+
+  .faq-item summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 0;
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-item .answer {
+    padding: 0 0 24px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #cccccc;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="brand" href="index.html">Takos Entertainment</a>
+    <a class="logo" href="index.html">
+      <img src="assets/logo.png" alt="Takos Entertainment logo">
+    </a>
+  </header>
+
+  <main>
+    <h1>Frequently Asked Questions</h1>
+
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary>How do I subscribe?</summary>
+        <div class="answer">1. You'll first need to create a Plex account here: <a href="https://watch.plex.tv" target="_blank">https://watch.plex.tv</a> or if you already have one then great, you're all set! <br> 2. When subscribing to Takos Entertainment make sure the email you use is the same email your Plex account is associated with as that is what will be used to share access.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>I accidentally subscribed to Takos Entertainment with the wrong (Non-Plex account) email address, How do I fix/update that?</summary>
+        <div class="answer">Update your email in the customer portal <a href="https://billing.stripe.com/p/login/aFa7sEe4CdFQbNA6r4f7i00" target="_blank">HERE</a> or send me an email at Support@TakosEntertainment.com with your Invoice # or Order # and I'll manually provide access to whichever email your plex account is under.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How do I start watching?</summary>
+        <div class="answer">Once subscribed and access has been shared to your Plex account email (Usually within 24 hours), You will just login to your Plex account on your Computer,Phone,TV,etc. via the Plex App or through a web browser at <a href="https://app.plex.tv" target="_blank">app.plex.tv</a> and the media will be in your library.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>More Questions? Send me an Email.</summary>
+        <div class="answer">I'll try and keep the FAQ updated with anymore questions that could be helpful to get started but if you need anything specific or additional help, send me an email at: Support@TakosEntertainment.com and I'll get back to you as soon as I can.</div>
+      </details>
+
+    </div>
+  </main>
+
+</body>
+</html>

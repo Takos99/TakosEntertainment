@@ -1,0 +1,302 @@
+/* ==========================================================================
+   Takos Entertainment — reconstructed from Canva export
+   ==========================================================================
+   The original Canva page positions everything on a fixed 1920x1079.47px
+   canvas (Canva's internal design size) and scales that whole canvas down
+   to fit the browser window. This file reproduces that same model:
+
+     .stage-wrapper  -> the visible viewport, always 100% of its container
+     .stage          -> the fixed 1920x1079.47 canvas, scaled to fit via JS
+     .layer          -> every design element, positioned with left/top/
+                        width/height in the ORIGINAL canvas pixels
+
+   Because every layer's position is in real canvas pixels, moving or
+   resizing something later is just editing its left/top/width/height —
+   the same way you'd drag it in Canva.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;0,900;1,700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #000; /* letterbox color if the browser is a different aspect ratio */
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden; /* whole design is scaled to fit, so nothing should scroll */
+}
+
+.stage-wrapper {
+  width: 100%; /* overridden by fitStage() to the scaled canvas width */
+  overflow: hidden;
+  line-height: 0; /* prevents a stray gap under the scaled stage */
+}
+
+.stage {
+  position: relative;
+  width: 1920px;
+  height: 1079.47px;
+  background: #ffffff;
+  overflow: hidden; /* crops decorative shapes that bleed off-canvas, same as the original */
+  transform-origin: top left;
+}
+
+.layer {
+  position: absolute;
+}
+
+/* --------------------------------------------------------------------
+   1. Background photo (theater seats)
+   -------------------------------------------------------------------- */
+.bg-seats {
+  left: 0px;
+  top: 0px;
+  width: 1623.27px;
+  height: 1079.47px;
+}
+.bg-seats img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --------------------------------------------------------------------
+   2. Decorative gradient triangle + outline (upper right, bleeds off-canvas)
+   -------------------------------------------------------------------- */
+.deco-triangle {
+  left: 727.73px;
+  top: -433.67px;
+  width: 2155.53px;
+  height: 1597.21px;
+}
+.deco-triangle svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* --------------------------------------------------------------------
+   Buttons (Login / Subscribe / Request)
+   -------------------------------------------------------------------- */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.btn-login {
+  left: 1376.5px;
+  top: 640px;
+  width: 510.7px;
+  height: 131.12px;
+  background: #ffffff;
+  border: 3px solid #231f20;
+  border-radius: 999px;
+  color: #000000;
+}
+
+.btn-subscribe {
+  left: 1370.04px;
+  top: 366.2px;
+  width: 523.63px;
+  height: 140.76px;
+  background: linear-gradient(90deg, #c840d4 0%, #e970f7 50%, #f7b5fd 100%);
+  border: 3px solid #231f20;
+  border-radius: 999px;
+  color: #ffffff;
+}
+
+.btn-request {
+  left: 1370.04px;
+  top: 916.66px;
+  width: 523.63px;
+  height: 109.72px;
+  background: linear-gradient(90deg, #ffde59 0%, #ff914d 100%);
+  border-radius: 0px;
+  color: #ffffff;
+}
+
+.btn-faq {
+  left: 170px;
+  top: 939.47px;
+  width: 240px;
+  height: 100px;
+  background: #2fa8ff;
+  border: 3px solid #231f20;
+  border-radius: 999px;
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------
+   Images (clapperboard, logo)
+   -------------------------------------------------------------------- */
+.clapperboard {
+  left: 424.44px;
+  top: 616.9px;
+  width: 314.37px;
+  height: 273.5px;
+}
+.logo {
+  left: 1716.88px;
+  top: 6.39px;
+  width: 203.12px;
+  height: 203.12px;
+}
+.clapperboard img,
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* --------------------------------------------------------------------
+   Small decorative sparkle shapes (sit beside each button)
+   -------------------------------------------------------------------- */
+.deco-star {
+  left: 1275.84px;
+  top: 945.95px;
+  width: 69.13px;
+  height: 65.89px;
+}
+.deco-blob {
+  left: 1272.19px;
+  top: 403.14px;
+  width: 76.43px;
+  height: 66.87px;
+}
+.deco-gear {
+  left: 1275.84px;
+  top: 670.98px;
+  width: 69.13px;
+  height: 69.13px;
+}
+.deco-star svg,
+.deco-blob svg,
+.deco-gear svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* to the left of the FAQ button, toward the edge of the page */
+.deco-question {
+  left: 60px;
+  top: 949.47px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.deco-question span {
+  color: #2fa8ff;
+  font-weight: 900;
+  font-size: 80px;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------
+   Title lockup ("Takos" / "Entertainment")
+   -------------------------------------------------------------------- */
+.title-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+.title-takos {
+  left: -270.43px;
+  top: 0px;
+  width: 1704.11px;
+  height: 386.87px;
+}
+.title-takos span {
+  font-weight: 900;
+  font-size: 220px;
+  line-height: 1;
+}
+.title-entertainment {
+  left: -270.43px;
+  top: 374.6px;
+  width: 1704.11px;
+  height: 153.45px;
+}
+.title-entertainment span {
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.043em;
+  font-size: 87px;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------
+   Small glowing labels
+   -------------------------------------------------------------------- */
+.glow-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+/* the inner span shrink-wraps to the widest line and is centered in the box,
+   so text-align:center centers each line under the others */
+.glow-label span {
+  text-align: center;
+}
+.label-signup {
+  /* left edge aligned with the Subscribe button */
+  left: 1370.04px;
+  top: 281.21px;
+  width: 521.37px;
+  height: 62.5px;
+  color: rgb(255, 150, 213);
+  font-size: 37px;
+  text-shadow: 0 0 1px rgba(255, 0, 153, 0.95),
+               0 0 5px rgba(255, 0, 153, 0.75),
+               0 0 15px rgba(255, 0, 153, 0.44);
+}
+.label-manage {
+  /* left edge aligned with the Login button */
+  left: 1376.5px;
+  top: 563.52px;
+  width: 482.42px;
+  height: 53.97px;
+  color: rgb(255, 255, 255);
+  font-size: 32px;
+  text-shadow: 0 0 1px rgba(255, 242, 242, 0.95),
+               0 0 4px rgba(255, 255, 255, 0.75),
+               0 0 12px rgba(255, 255, 255, 0.44);
+}
+.label-premium {
+  /* shifted left so the wider line clears the right edge of the canvas (1920) */
+  left: 1300px;
+  top: 793.59px;
+  width: 620px;
+  height: 98.95px;
+  color: rgb(255, 241, 186);
+  font-size: 32px;
+  text-shadow: 0 0 1px rgba(255, 209, 26, 0.95),
+               0 0 4px rgba(255, 218, 71, 0.75),
+               0 0 12px rgba(255, 218, 71, 0.44);
+}
