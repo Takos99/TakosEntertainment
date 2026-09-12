@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscribe</title>
+<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100%;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px 0;
+  }
+
+  /* square-edged tab strip: one bordered container, tabs flush against
+     each other with a single divider line between them */
+  .tab-btn {
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: transparent;
+    border: 3px solid #231f20;
+    border-radius: 0;
+    padding: 14px 48px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .tab-btn + .tab-btn {
+    border-left: none; /* shared divider instead of a double-thick line */
+  }
+
+  .tab-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .tab-btn.active {
+    background: #0074d4;
+    border-color: #231f20;
+    color: #ffffff;
+  }
+
+  .tab-panel {
+    display: none;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+  <div class="tabs">
+    <button type="button" class="tab-btn active" data-tab="monthly">Monthly</button>
+    <button type="button" class="tab-btn" data-tab="yearly">Yearly</button>
+  </div>
+
+  <div class="tab-panel active" id="panel-monthly">
+    <stripe-pricing-table pricing-table-id="prctbl_1U3r2J2ZazvMsUZZMHhOmqwf"
+publishable-key="pk_live_51TwSLM2ZazvMsUZZMtx9AaLi4gKfU4l9rQptAuxLgA8OmU6n7xMpBfKbZ7xENfbP4Hf8WLZwS3UB0jXaSWrAAkhI00wVOf5ZR6">
+</stripe-pricing-table>
+  </div>
+
+  <div class="tab-panel" id="panel-yearly">
+    <stripe-pricing-table pricing-table-id="prctbl_1U3rEB2ZazvMsUZZrQ3Oaqov"
+publishable-key="pk_live_51TwSLM2ZazvMsUZZMtx9AaLi4gKfU4l9rQptAuxLgA8OmU6n7xMpBfKbZ7xENfbP4Hf8WLZwS3UB0jXaSWrAAkhI00wVOf5ZR6">
+</stripe-pricing-table>
+  </div>
+
+  <script>
+    var tabButtons = document.querySelectorAll('.tab-btn');
+    var panels = {
+      monthly: document.getElementById('panel-monthly'),
+      yearly: document.getElementById('panel-yearly')
+    };
+
+    tabButtons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('data-tab');
+
+        tabButtons.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        Object.keys(panels).forEach(function (key) {
+          panels[key].classList.toggle('active', key === target);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
