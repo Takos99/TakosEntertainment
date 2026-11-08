@@ -1,302 +1,742 @@
 /* ==========================================================================
-   Takos Entertainment — reconstructed from Canva export
+   Takos Entertainment — home page styles
    ==========================================================================
-   The original Canva page positions everything on a fixed 1920x1079.47px
-   canvas (Canva's internal design size) and scales that whole canvas down
-   to fit the browser window. This file reproduces that same model:
-
-     .stage-wrapper  -> the visible viewport, always 100% of its container
-     .stage          -> the fixed 1920x1079.47 canvas, scaled to fit via JS
-     .layer          -> every design element, positioned with left/top/
-                        width/height in the ORIGINAL canvas pixels
-
-   Because every layer's position is in real canvas pixels, moving or
-   resizing something later is just editing its left/top/width/height —
-   the same way you'd drag it in Canva.
+   Mobile-first, responsive layout. Brand colors are defined once below as
+   CSS variables, so re-theming the site is just editing the :root block.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;0,900;1,700&display=swap');
+:root {
+  --bg: #0b0b10;
+  --bg-alt: #121219;
+  --surface: #191922;
+  --surface-hover: #20202b;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #f5f5f7;
+  --text-muted: #a8a8b3;
 
-* {
+  --red: #e50914;          /* theater-seat red */
+  --purple: #c840d4;       /* subscribe */
+  --pink: #e970f7;
+  --yellow: #ffde59;       /* request */
+  --orange: #ff914d;
+  --blue: #2fa8ff;         /* faq */
+
+  --grad-primary: linear-gradient(135deg, #c840d4 0%, #e970f7 55%, #f7b5fd 100%);
+  --grad-request: linear-gradient(135deg, #ffde59 0%, #ff914d 100%);
+
+  --radius: 16px;
+  --container: 1160px;
+  --header-h: 68px;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #000; /* letterbox color if the browser is a different aspect ratio */
-  font-family: 'Poppins', sans-serif;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  overflow: hidden; /* whole design is scaled to fit, so nothing should scroll */
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-.stage-wrapper {
-  width: 100%; /* overridden by fitStage() to the scaled canvas width */
-  overflow: hidden;
-  line-height: 0; /* prevents a stray gap under the scaled stage */
-}
-
-.stage {
-  position: relative;
-  width: 1920px;
-  height: 1079.47px;
-  background: #ffffff;
-  overflow: hidden; /* crops decorative shapes that bleed off-canvas, same as the original */
-  transform-origin: top left;
-}
-
-.layer {
-  position: absolute;
-}
-
-/* --------------------------------------------------------------------
-   1. Background photo (theater seats)
-   -------------------------------------------------------------------- */
-.bg-seats {
-  left: 0px;
-  top: 0px;
-  width: 1623.27px;
-  height: 1079.47px;
-}
-.bg-seats img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+img,
+svg {
   display: block;
+  max-width: 100%;
 }
 
-/* --------------------------------------------------------------------
-   2. Decorative gradient triangle + outline (upper right, bleeds off-canvas)
-   -------------------------------------------------------------------- */
-.deco-triangle {
-  left: 727.73px;
-  top: -433.67px;
-  width: 2155.53px;
-  height: 1597.21px;
+a {
+  color: inherit;
 }
-.deco-triangle svg {
+
+h1, h2, h3 {
+  margin: 0;
+  line-height: 1.15;
+}
+
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.container {
   width: 100%;
-  height: 100%;
-  display: block;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-/* --------------------------------------------------------------------
-   Buttons (Login / Subscribe / Request)
-   -------------------------------------------------------------------- */
+/* ---------- Buttons ---------- */
 .btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  text-decoration: none;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  font-family: inherit;
   font-weight: 700;
-  font-size: 27px;
-  line-height: 1;
+  font-size: 15px;
+  line-height: 1.2;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
-.btn-login {
-  left: 1376.5px;
-  top: 640px;
-  width: 510.7px;
-  height: 131.12px;
-  background: #ffffff;
-  border: 3px solid #231f20;
-  border-radius: 999px;
-  color: #000000;
+.btn:hover {
+  transform: translateY(-2px);
 }
 
-.btn-subscribe {
-  left: 1370.04px;
-  top: 366.2px;
-  width: 523.63px;
-  height: 140.76px;
-  background: linear-gradient(90deg, #c840d4 0%, #e970f7 50%, #f7b5fd 100%);
-  border: 3px solid #231f20;
-  border-radius: 999px;
-  color: #ffffff;
+.btn:active {
+  transform: translateY(0);
 }
 
-.btn-request {
-  left: 1370.04px;
-  top: 916.66px;
-  width: 523.63px;
-  height: 109.72px;
-  background: linear-gradient(90deg, #ffde59 0%, #ff914d 100%);
-  border-radius: 0px;
-  color: #ffffff;
+.btn-primary {
+  background: var(--grad-primary);
+  background-origin: border-box; /* gradient spans the border area too, so edges don't tile/cut off */
+  background-clip: border-box;
+  color: #fff;
+  box-shadow: 0 8px 24px -8px rgba(200, 64, 212, 0.7);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
-.btn-faq {
-  left: 170px;
-  top: 939.47px;
-  width: 240px;
-  height: 100px;
-  background: #2fa8ff;
-  border: 3px solid #231f20;
-  border-radius: 999px;
-  color: #ffffff;
+.btn-primary:hover {
+  box-shadow: 0 12px 32px -8px rgba(233, 112, 247, 0.85);
 }
 
-/* --------------------------------------------------------------------
-   Images (clapperboard, logo)
-   -------------------------------------------------------------------- */
-.clapperboard {
-  left: 424.44px;
-  top: 616.9px;
-  width: 314.37px;
-  height: 273.5px;
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
-.logo {
-  left: 1716.88px;
-  top: 6.39px;
-  width: 203.12px;
-  height: 203.12px;
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #fff;
 }
-.clapperboard img,
-.logo img {
-  width: 100%;
+
+.btn-sm {
+  min-height: 40px;
+  padding: 8px 20px;
+  font-size: 14px;
+}
+
+.btn-lg {
+  min-height: 54px;
+  padding: 14px 30px;
+  font-size: 16px;
+}
+
+/* ---------- Header / nav ---------- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: var(--header-h);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.site-header.scrolled,
+.site-header.menu-open {
+  background: rgba(11, 11, 16, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 100%;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.brand img {
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  display: block;
 }
 
-/* --------------------------------------------------------------------
-   Small decorative sparkle shapes (sit beside each button)
-   -------------------------------------------------------------------- */
-.deco-star {
-  left: 1275.84px;
-  top: 945.95px;
-  width: 69.13px;
-  height: 65.89px;
+.brand em {
+  font-style: italic;
+  font-weight: 700;
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
 }
-.deco-blob {
-  left: 1272.19px;
-  top: 403.14px;
-  width: 76.43px;
-  height: 66.87px;
+
+/* hamburger (mobile only) */
+.nav-toggle {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  margin-right: -10px;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }
-.deco-gear {
-  left: 1275.84px;
-  top: 670.98px;
-  width: 69.13px;
-  height: 69.13px;
-}
-.deco-star svg,
-.deco-blob svg,
-.deco-gear svg {
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
   width: 100%;
-  height: 100%;
-  display: block;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
 }
 
-/* to the left of the FAQ button, toward the edge of the page */
-.deco-question {
-  left: 60px;
-  top: 949.47px;
-  width: 80px;
-  height: 80px;
+.menu-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-open .nav-toggle span:nth-child(2) { opacity: 0; }
+.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* mobile dropdown menu */
+.nav-menu {
+  position: absolute;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.deco-question span {
-  color: #2fa8ff;
-  font-weight: 900;
-  font-size: 80px;
-  line-height: 1;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px 24px;
+  background: rgba(11, 11, 16, 0.97);
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
 }
 
-/* --------------------------------------------------------------------
-   Title lockup ("Takos" / "Entertainment")
-   -------------------------------------------------------------------- */
-.title-block {
+.menu-open .nav-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-menu a:not(.btn) {
+  padding: 12px 4px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-menu a:not(.btn):hover {
+  color: #fff;
+}
+
+.nav-menu .btn {
+  margin-top: 12px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #ffffff;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--header-h) + 40px) 0 80px;
+  overflow: hidden;
+  isolation: isolate;
 }
-.title-takos {
-  left: -270.43px;
-  top: 0px;
-  width: 1704.11px;
-  height: 386.87px;
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(11, 11, 16, 0.35) 0%, rgba(11, 11, 16, 0.85) 70%),
+    linear-gradient(180deg, rgba(11, 11, 16, 0.55) 0%, rgba(11, 11, 16, 0.25) 40%, var(--bg) 100%),
+    url('assets/theater-seats.png') center / cover no-repeat;
 }
-.title-takos span {
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-logo {
+  width: clamp(96px, 22vw, 160px);
+  height: auto;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.6));
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+.hero-title-top {
   font-weight: 900;
-  font-size: 220px;
-  line-height: 1;
+  font-size: clamp(64px, 18vw, 160px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
 }
-.title-entertainment {
-  left: -270.43px;
-  top: 374.6px;
-  width: 1704.11px;
-  height: 153.45px;
-}
-.title-entertainment span {
+
+.hero-title-bottom {
   font-weight: 700;
   font-style: italic;
   text-transform: uppercase;
-  letter-spacing: 0.043em;
-  font-size: 87px;
+  font-size: clamp(20px, 5.4vw, 52px);
+  letter-spacing: 0.08em;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+
+.hero-tagline {
+  max-width: 560px;
+  margin-top: 20px;
+  font-size: clamp(16px, 2.2vw, 19px);
+  color: #e3e3ea;
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+  margin-top: 32px;
+}
+
+.hero-note {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  animation: bob 2s ease-in-out infinite;
+}
+
+.scroll-cue:hover {
+  color: #fff;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 6px); }
+}
+
+/* ---------- Sections ---------- */
+.section {
+  padding: 72px 0;
+}
+
+.section-alt {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-head {
+  max-width: 640px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+
+.section-head h2 {
+  font-size: clamp(26px, 5vw, 40px);
+  font-weight: 900;
+}
+
+/* ---------- Steps ---------- */
+.steps {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  padding: 28px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: var(--grad-primary);
+  font-weight: 900;
+  font-size: 18px;
+  color: #fff;
+}
+
+.step h3 {
+  margin-bottom: 8px;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.step p {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.step a {
+  color: var(--pink);
+  font-weight: 500;
+}
+
+/* ---------- Action cards ---------- */
+.cards {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  --accent: var(--pink);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 28px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+/* colored accent bar along the top of each card */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--accent);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  background: var(--surface-hover);
+  border-color: rgba(255, 255, 255, 0.25);
+  border-color: color-mix(in srgb, var(--icon) 50%, transparent);
+}
+
+.card-subscribe { --accent: var(--grad-primary); --icon: var(--pink); }
+.card-manage    { --accent: #ffffff;             --icon: #ffffff; }
+.card-request   { --accent: var(--grad-request); --icon: var(--yellow); }
+.card-faq       { --accent: var(--blue);         --icon: var(--blue); }
+
+.card-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--icon);
+}
+
+.card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.card-icon-text {
+  font-weight: 900;
+  font-size: 26px;
   line-height: 1;
 }
 
-/* --------------------------------------------------------------------
-   Small glowing labels
-   -------------------------------------------------------------------- */
-.glow-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.card h3 {
+  font-size: 19px;
   font-weight: 700;
-  text-transform: uppercase;
-  line-height: 1.15;
 }
-/* the inner span shrink-wraps to the widest line and is centered in the box,
-   so text-align:center centers each line under the others */
-.glow-label span {
+
+.card p {
+  flex: 1;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.card-link {
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--icon);
+}
+
+.card-link span {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.card:hover .card-link span {
+  transform: translateX(4px);
+}
+
+.badge {
+  position: absolute;
+  top: 28px;
+  right: 20px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--grad-request);
+  color: #2a1a00;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---------- Final CTA ---------- */
+.cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse 60% 70% at 50% 100%, rgba(229, 9, 20, 0.28), transparent 70%);
+}
+
+.cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   text-align: center;
 }
-.label-signup {
-  /* left edge aligned with the Subscribe button */
-  left: 1370.04px;
-  top: 281.21px;
-  width: 521.37px;
-  height: 62.5px;
-  color: rgb(255, 150, 213);
-  font-size: 37px;
-  text-shadow: 0 0 1px rgba(255, 0, 153, 0.95),
-               0 0 5px rgba(255, 0, 153, 0.75),
-               0 0 15px rgba(255, 0, 153, 0.44);
+
+.cta-clapper {
+  width: 88px;
+  height: auto;
+  filter: invert(1);
+  opacity: 0.9;
 }
-.label-manage {
-  /* left edge aligned with the Login button */
-  left: 1376.5px;
-  top: 563.52px;
-  width: 482.42px;
-  height: 53.97px;
-  color: rgb(255, 255, 255);
-  font-size: 32px;
-  text-shadow: 0 0 1px rgba(255, 242, 242, 0.95),
-               0 0 4px rgba(255, 255, 255, 0.75),
-               0 0 12px rgba(255, 255, 255, 0.44);
+
+.cta h2 {
+  max-width: 620px;
+  font-size: clamp(26px, 5vw, 40px);
+  font-weight: 900;
 }
-.label-premium {
-  /* shifted left so the wider line clears the right edge of the canvas (1920) */
-  left: 1300px;
-  top: 793.59px;
-  width: 620px;
-  height: 98.95px;
-  color: rgb(255, 241, 186);
-  font-size: 32px;
-  text-shadow: 0 0 1px rgba(255, 209, 26, 0.95),
-               0 0 4px rgba(255, 218, 71, 0.75),
-               0 0 12px rgba(255, 218, 71, 0.44);
+
+.cta p {
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.cta p a {
+  color: #fff;
+  font-weight: 500;
+}
+
+.cta .btn {
+  margin-top: 8px;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  background: #07070a;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.brand-sm {
+  font-size: 15px;
+}
+
+.brand-sm img {
+  width: 28px;
+  height: 28px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 22px;
+}
+
+.footer-links a {
+  padding: 6px 0;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: #fff;
+}
+
+.copyright {
+  font-size: 13px;
+  color: #6c6c78;
+}
+
+/* ==========================================================================
+   Larger screens
+   ========================================================================== */
+@media (min-width: 600px) {
+  .container {
+    padding: 0 32px;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    justify-content: center;
+    max-width: none;
+    width: auto;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  :root {
+    --header-h: 76px;
+  }
+
+  .section {
+    padding: 104px 0;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-menu {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    gap: 28px;
+    padding: 0;
+    background: none;
+    border: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .nav-menu a:not(.btn) {
+    padding: 6px 0;
+    border: 0;
+    font-size: 15px;
+  }
+
+  .nav-menu .btn {
+    margin-top: 0;
+  }
+
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .step {
+    padding: 32px 28px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .cards {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
