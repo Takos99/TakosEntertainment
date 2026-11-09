@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report an Issue — Takos Entertainment</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100%;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  /* -----------------------------------------------------------
+     Header: "Takos Entertainment" top-left, logo top-right
+     ----------------------------------------------------------- */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+  }
+
+  .brand {
+    font-weight: 900;
+    font-size: 28px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .logo img {
+    display: block;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+  }
+
+  /* -----------------------------------------------------------
+     Page content
+     ----------------------------------------------------------- */
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+
+  h1 {
+    font-weight: 900;
+    font-size: 44px;
+    text-align: center;
+    margin: 0 0 16px;
+  }
+
+  .intro {
+    text-align: center;
+    color: #cccccc;
+    line-height: 1.6;
+    margin: 0 0 40px;
+  }
+
+  /* -----------------------------------------------------------
+     Form
+     ----------------------------------------------------------- */
+  .report-form {
+    border: 2px solid #ffffff;
+    border-radius: 12px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field[hidden] {
+    display: none;
+  }
+
+  label {
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .required {
+    color: #999999;
+    font-weight: 400;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    color: #ffffff;
+    background: #111111;
+    border: 2px solid #555555;
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: border-color 0.15s ease;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #ffffff;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #777777;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 44px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  select option {
+    background: #111111;
+    color: #ffffff;
+  }
+
+  textarea {
+    min-height: 180px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  input[type="file"] {
+    cursor: pointer;
+    color: #cccccc;
+    padding: 10px 14px;
+  }
+
+  input[type="file"]::file-selector-button {
+    font: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    color: #000000;
+    background: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 6px 16px;
+    margin-right: 14px;
+    cursor: pointer;
+  }
+
+  .file-error {
+    font-size: 14px;
+    color: #ff6b6b;
+    margin: 0;
+  }
+
+  .file-error:empty {
+    display: none;
+  }
+
+  .hint {
+    font-size: 14px;
+    color: #999999;
+    margin: 0;
+  }
+
+  button[type="submit"] {
+    font: inherit;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+    background: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 999px;
+    padding: 14px 32px;
+    cursor: pointer;
+    align-self: center;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  button[type="submit"]:not(:disabled):hover,
+  button[type="submit"]:focus-visible {
+    background: #000000;
+    color: #ffffff;
+    outline: none;
+  }
+
+  button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Honeypot: off-screen so people never see it, but bots filling every input will */
+  .hp-field {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .turnstile-wrap {
+    display: flex;
+    justify-content: center;
+    min-height: 65px;
+  }
+
+  .form-status {
+    text-align: center;
+    color: #cccccc;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .form-status:empty {
+    display: none;
+  }
+
+  .form-status.is-success {
+    color: #6ee7a8;
+  }
+
+  .form-status.is-error {
+    color: #ff6b6b;
+  }
+
+  @media (max-width: 600px) {
+    header {
+      padding: 20px 16px;
+    }
+
+    .brand {
+      font-size: 22px;
+    }
+
+    .logo img {
+      width: 48px;
+      height: 48px;
+    }
+
+    h1 {
+      font-size: 34px;
+    }
+
+    main {
+      padding: 24px 16px 80px;
+    }
+
+    .report-form {
+      padding: 24px 16px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="brand" href="index.html">Takos Entertainment</a>
+    <a class="logo" href="index.html">
+      <img src="assets/logo.png" alt="Takos Entertainment logo">
+    </a>
+  </header>
+
+  <main>
+    <h1>Report an Issue</h1>
+    <p class="intro">Something not working right? Let me know below and I'll look into it as soon as I can.</p>
+
+    <form class="report-form" id="report-form" novalidate>
+
+      <div class="field">
+        <label for="name">Name <span class="required">(required)</span></label>
+        <input type="text" id="name" name="name" autocomplete="name" placeholder="Your name" maxlength="100" required>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address <span class="required">(required)</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required>
+        <p class="hint">Preferably the email tied to your Plex account / subscription.</p>
+      </div>
+
+      <div class="field">
+        <label for="category">What are you having an issue with? <span class="required">(required)</span></label>
+        <select id="category" name="category" required>
+          <option value="" disabled selected>Select an option</option>
+          <option value="website">Website</option>
+          <option value="media-playback">Media playback</option>
+          <option value="server-connection">Server connection</option>
+          <option value="account-access">Account access</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="field" id="other-field" hidden>
+        <label for="category-other">Please specify <span class="required">(required)</span></label>
+        <input type="text" id="category-other" name="category_other" placeholder="What is the issue related to?" maxlength="100">
+      </div>
+
+      <div class="field">
+        <label for="description">Describe the problem <span class="required">(required)</span></label>
+        <textarea id="description" name="description" minlength="10" maxlength="4000" required
+          placeholder="Include as much detail as you can — e.g. the show or movie title, episode, what device/app you're using, what happened, any error messages, and when it started."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="attachments">Attachments <span class="required">(optional)</span></label>
+        <input type="file" id="attachments" name="attachments" multiple
+          accept=".jpg,.jpeg,.png,.gif,.webp,.heic,.heif,image/jpeg,image/png,image/gif,image/webp,image/heic,image/heif">
+        <p class="hint">Accepted: JPEG, PNG, GIF, WebP, HEIC. Up to 5 files, 8 MB total.</p>
+        <p class="file-error" id="file-error" role="alert"></p>
+      </div>
+
+      <!-- Honeypot: leave empty. Hidden from people and screen readers. -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="website">Leave this field empty</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <!-- Cloudflare Turnstile. Adds a hidden "cf-turnstile-response" input to the form. -->
+      <div class="turnstile-wrap">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAF5QCaAyzZEO3LFt" data-theme="dark" data-action="bug-report"></div>
+      </div>
+
+      <button type="submit" id="submit-btn">Submit report</button>
+      <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+
+<script>
+  (function () {
+    var form = document.getElementById('report-form');
+    var category = document.getElementById('category');
+    var otherField = document.getElementById('other-field');
+    var otherInput = document.getElementById('category-other');
+    var status = document.getElementById('form-status');
+    var fileInput = document.getElementById('attachments');
+    var fileError = document.getElementById('file-error');
+    var submitBtn = document.getElementById('submit-btn');
+
+    // URL of the deployed bug-report-worker (printed by `npx wrangler deploy`)
+    var WORKER_URL = 'https://bug-report-worker.chandlerx1999.workers.dev';
+
+    var MAX_FILES = 5;
+    var MAX_TOTAL_SIZE = 8 * 1024 * 1024; // 8 MB across all files (matches the Worker)
+    var ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'heic', 'heif'];
+
+    // The `accept` attribute only filters the file picker, so check the files here too
+    function validateFiles() {
+      var files = fileInput.files;
+      var message = '';
+
+      if (files.length > MAX_FILES) {
+        message = 'Please attach no more than ' + MAX_FILES + ' files.';
+      } else {
+        var total = 0;
+        for (var i = 0; i < files.length; i++) {
+          var ext = files[i].name.split('.').pop().toLowerCase();
+          if (ALLOWED_EXTENSIONS.indexOf(ext) === -1) {
+            message = '"' + files[i].name + '" isn\'t a supported file type. Please use JPEG, PNG, GIF, WebP or HEIC.';
+            break;
+          }
+          total += files[i].size;
+        }
+        if (!message && total > MAX_TOTAL_SIZE) {
+          message = 'Attachments add up to more than 8 MB. Please remove or shrink some.';
+        }
+      }
+
+      fileInput.setCustomValidity(message);
+      fileError.textContent = message;
+      return message === '';
+    }
+
+    fileInput.addEventListener('change', validateFiles);
+
+    // Show the "Other" text box only when "Other" is selected
+    category.addEventListener('change', function () {
+      var isOther = category.value === 'other';
+      otherField.hidden = !isOther;
+      otherInput.required = isOther;
+      if (isOther) {
+        otherInput.focus();
+      } else {
+        otherInput.value = '';
+      }
+    });
+
+    function setStatus(type, message) {
+      status.className = 'form-status' + (type ? ' is-' + type : '');
+      status.textContent = message;
+    }
+
+    function setSending(sending) {
+      submitBtn.disabled = sending;
+      submitBtn.textContent = sending ? 'Sending…' : 'Submit report';
+      form.setAttribute('aria-busy', String(sending));
+    }
+
+    function resetTurnstile() {
+      // Turnstile tokens are single-use, so get a fresh one after every attempt
+      if (window.turnstile) window.turnstile.reset();
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (submitBtn.disabled) return;
+
+      validateFiles();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      var data = new FormData(form);
+      if (!data.get('cf-turnstile-response')) {
+        setStatus('error', 'Please complete the verification check above the Submit button.');
+        return;
+      }
+
+      setSending(true);
+      setStatus('', '');
+
+      try {
+        var res = await fetch(WORKER_URL, { method: 'POST', body: data });
+        var result = null;
+        try { result = await res.json(); } catch (_) { /* non-JSON response */ }
+
+        if (res.ok && result && result.ok) {
+          setStatus('success', "Thanks! Your report has been sent. I'll look into it as soon as I can.");
+          form.reset();
+          fileInput.setCustomValidity('');
+          fileError.textContent = '';
+          otherField.hidden = true;
+          otherInput.required = false;
+        } else {
+          setStatus('error', (result && result.error) || 'Something went wrong (error ' + res.status + '). Please try again.');
+        }
+      } catch (err) {
+        setStatus('error', "Couldn't reach the report server. Check your connection and try again, or email Support@TakosEntertainment.com.");
+      } finally {
+        setSending(false);
+        resetTurnstile();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

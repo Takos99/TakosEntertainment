@@ -1,0 +1,16 @@
+name = "bug-report-worker"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+# Turns on Workers Logs so console.error() output shows in the dashboard / `wrangler tail`.
+[observability]
+enabled = true
+
+# Plain (non-secret) config. Only this exact origin may submit reports.
+# For local testing, override it in .dev.vars (e.g. ALLOWED_ORIGIN=http://localhost:8080).
+[vars]
+ALLOWED_ORIGIN = "https://takosentertainment.com"
+
+# Secrets are NOT set here. Add them with:
+#   npx wrangler secret put DISCORD_WEBHOOK_URL
+#   npx wrangler secret put TURNSTILE_SECRET

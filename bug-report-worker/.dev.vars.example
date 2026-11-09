@@ -1,0 +1,11 @@
+# Copy this file to .dev.vars for local testing with `npm run dev`.
+# .dev.vars is gitignored — never commit real values.
+
+# Use a webhook for a private test channel while developing.
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/REPLACE_ME
+
+# Cloudflare's always-pass test secret (pair it with the test site key 1x00000000000000000000AA).
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+
+# Overrides the [vars] value in wrangler.toml so a locally served form can submit.
+ALLOWED_ORIGIN=http://localhost:8080
