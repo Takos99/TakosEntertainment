@@ -6,7 +6,8 @@ compatibility_date = "2026-11-01"
 [observability]
 enabled = true
 
-# Plain (non-secret) config. Only this exact origin may submit reports.
+# Plain (non-secret) config. Only these exact origins may submit reports (comma-separated,
+# scheme + host, no trailing slash), e.g. "https://takosentertainment.com,https://www.takosentertainment.com".
 # For local testing, override it in .dev.vars (e.g. ALLOWED_ORIGIN=http://localhost:8080).
 [vars]
 ALLOWED_ORIGIN = "https://takosentertainment.com"

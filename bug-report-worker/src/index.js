@@ -45,7 +45,9 @@ const DISCORD = {
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin');
-    const allowed = origin !== null && origin === env.ALLOWED_ORIGIN;
+    // ALLOWED_ORIGIN may list several origins separated by commas.
+    const allowedOrigins = (env.ALLOWED_ORIGIN || '').split(',').map((s) => s.trim()).filter(Boolean);
+    const allowed = origin !== null && allowedOrigins.includes(origin);
     const cors = allowed ? corsHeaders(origin) : {};
     const reply = (status, body, extra = {}) => json(status, body, { ...cors, ...extra });
 
@@ -60,6 +62,7 @@ export default {
 
     // CORS alone only stops browsers from *reading* the response, so refuse the request outright too.
     if (!allowed) {
+      console.warn(`Rejected request from origin: ${origin === null ? '(none)' : origin}`);
       return json(403, { ok: false, error: 'Origin not allowed.' });
     }
 
