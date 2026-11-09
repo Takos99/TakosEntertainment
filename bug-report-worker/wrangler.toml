@@ -10,7 +10,7 @@ enabled = true
 # scheme + host, no trailing slash), e.g. "https://takosentertainment.com,https://www.takosentertainment.com".
 # For local testing, override it in .dev.vars (e.g. ALLOWED_ORIGIN=http://localhost:8080).
 [vars]
-ALLOWED_ORIGIN = "https://takosentertainment.com"
+ALLOWED_ORIGIN = "https://takosentertainment.com,https://www.takosentertainment.com"
 
 # Secrets are NOT set here. Add them with:
 #   npx wrangler secret put DISCORD_WEBHOOK_URL
